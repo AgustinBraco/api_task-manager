@@ -27,7 +27,7 @@ const handleError = (res, error) =>
   })
 
 // Routes
-router.get('/isAlive', (req, res) => {
+router.get('/isalive', (req, res) => {
   try {
     handleResponse(res, null, {
       code: 200,

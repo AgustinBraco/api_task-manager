@@ -1,0 +1,21 @@
+{
+  "id": "6a753be2-59e9-4676-b389-62c768d60535",
+  "name": "Production",
+  "values": [
+    {
+      "key": "task-manager",
+      "value": "https://api-task-manager-15ll.onrender.com",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "API_KEY",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2025-05-04T01:08:49.210Z",
+  "_postman_exported_using": "Postman/11.43.4"
+}
