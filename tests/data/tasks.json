@@ -1,0 +1,20 @@
+{
+  "valid": {
+    "title": "Title",
+    "description": "Description",
+    "date": "02/05/2025",
+    "priority": 1,
+    "completed": 0
+  },
+  "invalid": {
+    "title": "Title",
+    "description": "",
+    "date": "02/05/2025",
+    "priority": 1,
+    "completed": 0
+  },
+  "validID": 1,
+  "invalidID": "one",
+  "incorrectID": 100,
+  "invalidKey": "a-vgr93ds-sdo3-adf2axx-hoyyt"
+}
