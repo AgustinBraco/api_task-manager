@@ -23,7 +23,7 @@ app.use(
 app.use(
   rateLimit({
     windowMs: 900000, // 15 minutes
-    max: 100,
+    max: 500,
     message: 'Too many requests. Please try again later.',
     headers: true
   })
