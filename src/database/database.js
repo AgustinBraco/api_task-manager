@@ -1,12 +1,13 @@
 import sqlite3 from 'sqlite3'
+import logger from '../logger/logger.js'
 
 sqlite3.verbose()
 
 // Create database
 const database = new sqlite3.Database(':memory:', error => {
-  if (error) return console.log('Error creating database:', error.message)
+  if (error) return logger.error(`Error creating database: ${error.message}`)
 
-  console.log('Database created successfully')
+  logger.info('Database created successfully')
 
   // Create table
   database.run(
@@ -20,9 +21,9 @@ const database = new sqlite3.Database(':memory:', error => {
   )`,
     error => {
       if (error)
-        return console.log('Error creating table "tasks":', error.message)
+        return logger.error(`Error creating table "tasks": ${error.message}`)
 
-      console.log('Table "tasks" created')
+      logger.info('Table "tasks" created')
     }
   )
 })

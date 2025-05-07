@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import environment from './environment/environment.js'
 import routes from './routes/routes.js'
+import logger from './logger/logger.js'
 import './database/database.js'
 
 // Initiate
@@ -34,7 +35,7 @@ app.use('/api/task-manager', routes)
 
 // Server
 const server = app.listen(environment.PORT, () =>
-  console.log(`Service running on port ${environment.PORT}`)
+  logger.info(`Service running on port ${environment.PORT}`)
 )
 
 // export default app

@@ -1,4 +1,5 @@
 import database from '../database/database.js'
+import logger from '../logger/logger.js'
 
 // Responses
 const queryResponse = error => ({
@@ -11,8 +12,7 @@ const queryResponse = error => ({
 const notFoundResponse = id => ({
   code: 404,
   status: 'error',
-  message: `Task with ID ${id} not found`,
-  error: 'NOT FOUND'
+  message: `Task with ID ${id} not found`
 })
 
 const successResponse = (message, data) => ({
@@ -28,11 +28,15 @@ class Task {
     const query = 'SELECT * FROM tasks'
 
     return new Promise((resolve, reject) => {
-      database.all(query, [], (error, tasks) =>
-        error
-          ? reject(queryResponse(error))
-          : resolve(successResponse('Tasks retrieved successfully', tasks))
-      )
+      database.all(query, [], (error, tasks) => {
+        if (error) {
+          logger.error(`Error querying the database ${error.code}`)
+          return reject(queryResponse(error))
+        }
+
+        logger.info(`Tasks retrieved successfully`)
+        return resolve(successResponse('Tasks retrieved successfully', tasks))
+      })
     })
   }
 
@@ -44,15 +48,23 @@ class Task {
         query,
         [title, description, date, priority, completed],
         function (error) {
-          if (error) return reject(queryResponse(error))
+          if (error) {
+            logger.error(`Error querying the database ${error.code}`)
+            return reject(queryResponse(error))
+          }
 
           database.get(
             'SELECT * FROM tasks WHERE id = ?',
             [this.lastID],
-            (error, task) =>
-              error
-                ? reject(queryResponse(error))
-                : resolve(successResponse('Task created successfully', task))
+            (error, task) => {
+              if (error) {
+                logger.error(`Error querying the database ${error.code}`)
+                return reject(queryResponse(error))
+              }
+
+              logger.info(`Task created successfully`)
+              return resolve(successResponse('Task created successfully', task))
+            }
           )
         }
       )
@@ -67,17 +79,28 @@ class Task {
         query,
         [title, description, date, priority, completed, id],
         function (error) {
-          if (error) return reject(queryResponse(error))
+          if (error) {
+            logger.error(`Error querying the database ${error.code}`)
+            return reject(queryResponse(error))
+          }
 
-          if (this.changes <= 0) return reject(notFoundResponse(id))
+          if (this.changes <= 0) {
+            logger.error(`Task not found in database`)
+            return reject(notFoundResponse(id))
+          }
 
           database.get(
             'SELECT * FROM tasks WHERE id = ?',
             [id],
-            (error, task) =>
-              error
-                ? reject(queryResponse(error))
-                : resolve(successResponse('Task updated successfully', task))
+            (error, task) => {
+              if (error) {
+                logger.error(`Error querying the database ${error.code}`)
+                return reject(queryResponse(error))
+              }
+
+              logger.info(`Task updated successfully`)
+              return resolve(successResponse('Task updated successfully', task))
+            }
           )
         }
       )
@@ -89,10 +112,17 @@ class Task {
 
     return new Promise((resolve, reject) => {
       database.run(query, [id], function (error) {
-        if (error) return reject(queryResponse(error))
+        if (error) {
+          logger.error(`Error querying the database ${error.code}`)
+          return reject(queryResponse(error))
+        }
 
-        if (this.changes <= 0) return reject(notFoundResponse(id))
+        if (this.changes <= 0) {
+          logger.error(`Task not found in database`)
+          return reject(notFoundResponse(id))
+        }
 
+        logger.error(`Task deleted successfully`)
         return resolve(successResponse('Task deleted successfully', []))
       })
     })
