@@ -49,8 +49,7 @@ const handleError = (res, error) => {
 }
 
 // Docs
-// router.use('/docs', isValidKey, swaggerUi.serve, swaggerUi.setup(docs))
-router.use('/docs', swaggerUi.serve, swaggerUi.setup(docs))
+router.use('/docs', isValidKey, swaggerUi.serve, swaggerUi.setup(docs))
 
 // Routes
 router.get('/isalive', (req, res) => {
