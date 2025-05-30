@@ -10,6 +10,8 @@ import './database/database.js'
 // Initiate
 const app = express()
 
+console.log(environment.ORIGIN_URL)
+
 // Set up
 app.use(helmet())
 app.use(express.json())

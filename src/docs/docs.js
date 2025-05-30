@@ -6,6 +6,6 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const docsData = await readFile(join(__dirname, './docs.json'), 'utf-8')
 const docs = JSON.parse(docsData)
-docs.server = `${environment.ORIGIN_URL}/api/task-manager`
+docs.server = `${environment.ENVIRONMENT_URL}/api/task-manager`
 
 export default docs
